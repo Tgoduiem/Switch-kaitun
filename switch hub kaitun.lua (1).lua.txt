@@ -242,6 +242,15 @@ if _G.Switch_Hub_Series_R then
 	wait(3)
 	Weapon = 'Combat'
 	-- AFK
+	spawn(function()
+		while wait(150) do
+			if Auto_Farm_Kaitun then
+				game:service('VirtualInputManager'):SendKeyEvent(true, "Space", false, game)
+				wait(0.5)
+				game:service('VirtualInputManager'):SendKeyEvent(false, "Space", false, game)
+			end
+		end
+	 end)
 	 Old_World = false
 	 New_World = false
 	 Three_World = false
@@ -1107,16 +1116,7 @@ if _G.Switch_Hub_Series_R then
 		end
 	end
 	})
-
-
-				end
-			elseif game.Players.LocalPlayer.Character.Humanoid.Health > 0 then
-				TP(RealTarget)
-			end
-		end)
-	end
-
-function TP(Pos)
+	function TP(Pos)
 		local xps = game.Players.LocalPlayer and game.Players.LocalPlayer.Character.HumanoidRootPart and  game.Players.LocalPlayer.Character.HumanoidRootPart.Position
 		if xps then
 			local Distance = (Pos.Position - xps).Magnitude
@@ -1220,7 +1220,6 @@ function TP(Pos)
 			end
 		end)
 	end
-
 	Tool_Special_S:AddButton({
 		Name = ' Teleport Bypass ',
 		Callback = function()
@@ -1821,8 +1820,67 @@ function TP(Pos)
 		Remote:InvokeServer(...)
 	end
 	end
-
-
+	function TPBoat(p,boat,speedx,stop)
+		if stop == nil then
+			stop = false
+		end
+		local Distance = (p.Position - boat.Position).Magnitude
+		Speed = speedx
+		TweenP = game:GetService("TweenService"):Create(boat,TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),{CFrame = p})
+		if stop == true then
+			TweenP:Cancel()
+		else
+			TweenP:Play()
+		end
+	end
+	function TPZ(p)
+		local Distance = (p.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
+		if Distance < 100 then
+			Speed = 50
+		elseif Distance < 400 then
+			Speed = 400
+		elseif Distance < 1000 then
+			Speed = 300
+		elseif Distance < 1500 then
+			Speed = 260
+		elseif Distance >= 1500 then
+			Speed = 300
+		end
+		Tween = game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart,TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),{CFrame = p})
+		Tween:Play()
+	end
+	function TPZX(p)
+		local Distance = (p.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
+		if Distance < 100 then
+			Speed = 20
+		elseif Distance < 400 then
+			Speed = 400
+		elseif Distance < 1000 then
+			Speed = 300
+		elseif Distance < 1500 then
+			Speed = 260
+		elseif Distance >= 1500 then
+			Speed = 300
+		end
+		Tween = game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart,TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),{CFrame = p})
+		Tween:Play()
+	end
+	function CheckCF(vu)
+		for i,v in pairs(game:GetService("Workspace")["_WorldOrigin"].EnemyRegions:GetChildren()) do
+			if (v.Position-CFrameMon.Position).Magnitude <= vu then
+				CFrameMon = v.CFrame
+				return
+			end
+		end
+	end
+	function SpawnMon()
+		for i2,v2 in pairs(game:GetService("Workspace")["_WorldOrigin"].EnemyRegions:GetChildren()) do
+			if (v2.Position-game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 500 then
+				game:GetService("ReplicatedStorage").Remotes.Location:FireServer(v)
+				return
+			end
+		end
+	end
 	function CheckQuestBoss()
 	-- Old World
 		local Lv = game.Players.LocalPlayer.Data.Level.Value
@@ -1843,7 +1901,7 @@ function TP(Pos)
 			NameBoss_XNameBoss_X = "The Gorilla King"
 			NameQuestBoss_X = "JungleQuest"
 			QuestLvBoss_X = 3
-			if game.Players.LocalPlayer.Data.Level.Value >= 25 then
+			if game.Players.LocalPlayer.Data.Value >= 25 then
 				CFrameQBoss_X = CFrame.new(-1604.12012, 36.8521118, 154.23732, 0.0648873374, -4.70858913e-06, -0.997892559, 1.41431883e-07, 1, -4.70933674e-06, 0.997892559, 1.64442184e-07, 0.0648873374)
 			end
 			CFrameBoss_X = CFrame.new(-1223.52808, 6.27936459, -502.292664, 0.310949147, -5.66602516e-08, 0.950426519, -3.37275488e-08, 1, 7.06501808e-08, -0.950426519, -5.40241736e-08, 0.310949147)
@@ -3512,7 +3570,6 @@ function TP(Pos)
 			elseif game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible == false then
 				FarmBoss_L = false
 			end
-
 		elseif game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible == true and Ms ~= nil then
 			if game.Players.LocalPlayer.Data.Level.Value <= 100 then
 				if game.Players.LocalPlayer.Data.Level.Value >= Next_Level_X then
@@ -3573,7 +3630,6 @@ function TP(Pos)
 					TPX(game.ReplicatedStorage:FindFirstChild(Ms).HumanoidRootPart.CFrame*CFrame.new(0,20,0))
 				end
 			end
-
 		elseif game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible == false then
 			Check_Level = false
 			SelectBoss = nil
