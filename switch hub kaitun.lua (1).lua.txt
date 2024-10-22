@@ -1811,67 +1811,8 @@ if _G.Switch_Hub_Series_R then
 		Remote:InvokeServer(...)
 	end
 	end
-	function TPBoat(p,boat,speedx,stop)
-		if stop == nil then
-			stop = false
-		end
-		local Distance = (p.Position - boat.Position).Magnitude
-		Speed = speedx
-		TweenP = game:GetService("TweenService"):Create(boat,TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),{CFrame = p})
-		if stop == true then
-			TweenP:Cancel()
-		else
-			TweenP:Play()
-		end
-	end
-	function TPZ(p)
-		local Distance = (p.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-		if Distance < 100 then
-			Speed = 50
-		elseif Distance < 400 then
-			Speed = 400
-		elseif Distance < 1000 then
-			Speed = 300
-		elseif Distance < 1500 then
-			Speed = 260
-		elseif Distance >= 1500 then
-			Speed = 300
-		end
-		Tween = game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart,TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),{CFrame = p})
-		Tween:Play()
-	end
-	function TPZX(p)
-		local Distance = (p.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-		if Distance < 100 then
-			Speed = 20
-		elseif Distance < 400 then
-			Speed = 400
-		elseif Distance < 1000 then
-			Speed = 300
-		elseif Distance < 1500 then
-			Speed = 260
-		elseif Distance >= 1500 then
-			Speed = 300
-		end
-		Tween = game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart,TweenInfo.new(Distance/Speed, Enum.EasingStyle.Linear),{CFrame = p})
-		Tween:Play()
-	end
-	function CheckCF(vu)
-		for i,v in pairs(game:GetService("Workspace")["_WorldOrigin"].EnemyRegions:GetChildren()) do
-			if (v.Position-CFrameMon.Position).Magnitude <= vu then
-				CFrameMon = v.CFrame
-				return
-			end
-		end
-	end
-	function SpawnMon()
-		for i2,v2 in pairs(game:GetService("Workspace")["_WorldOrigin"].EnemyRegions:GetChildren()) do
-			if (v2.Position-game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 500 then
-				game:GetService("ReplicatedStorage").Remotes.Location:FireServer(v)
-				return
-			end
-		end
-	end
+
+
 	function CheckQuestBoss()
 	-- Old World
 		local Lv = game.Players.LocalPlayer.Data.Level.Value
