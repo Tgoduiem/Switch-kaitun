@@ -242,15 +242,6 @@ if _G.Switch_Hub_Series_R then
 	wait(3)
 	Weapon = 'Combat'
 	-- AFK
-	spawn(function()
-		while wait(150) do
-			if Auto_Farm_Kaitun then
-				game:service('VirtualInputManager'):SendKeyEvent(true, "Space", false, game)
-				wait(0.5)
-				game:service('VirtualInputManager'):SendKeyEvent(false, "Space", false, game)
-			end
-		end
-	 end)
 	 Old_World = false
 	 New_World = false
 	 Three_World = false
