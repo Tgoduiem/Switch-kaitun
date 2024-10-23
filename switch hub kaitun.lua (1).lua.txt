@@ -88,6 +88,10 @@ getgenv().Mastery = { -- Farm Mastery / ฟามมาสเตอรี่
         [4] = 'Serpent Bow'
     }
 }
+
+_G.On_Next_Generation = true
+if _G.On_Next_Generation then
+    _G.Switch_Hub_Series_R = true
     _G.Quest = {
         ['RGB'] = getgenv().Quest['RGB Haki']
     }
@@ -123,7 +127,8 @@ if type(Bijan) == 'table' then
 else
 	game:Shutdown()
 end
-	
+if _G.Switch_Hub_Series_R then
+	if not game:IsLoaded() then repeat game.Loaded:Wait() until game:IsLoaded() end
 	
 	local function click(a)
 		game:GetService("VirtualInputManager"):SendMouseButtonEvent(a.AbsolutePosition.X+a.AbsoluteSize.X/2,a.AbsolutePosition.Y+90,0,true,a,1)
@@ -1896,7 +1901,7 @@ end
 			NameBoss_XNameBoss_X = "The Gorilla King"
 			NameQuestBoss_X = "JungleQuest"
 			QuestLvBoss_X = 3
-			if game.Players.LocalPlayer.Data.Value >= 25 then
+			if game.Players.LocalPlayer.Data.Level.Value >= 25 then
 				CFrameQBoss_X = CFrame.new(-1604.12012, 36.8521118, 154.23732, 0.0648873374, -4.70858913e-06, -0.997892559, 1.41431883e-07, 1, -4.70933674e-06, 0.997892559, 1.64442184e-07, 0.0648873374)
 			end
 			CFrameBoss_X = CFrame.new(-1223.52808, 6.27936459, -502.292664, 0.310949147, -5.66602516e-08, 0.950426519, -3.37275488e-08, 1, 7.06501808e-08, -0.950426519, -5.40241736e-08, 0.310949147)
@@ -3809,7 +3814,7 @@ end
 							game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest", NameQuest, QuestLv)
 							game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetSpawnPoint")
 						end
-					until game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible == true
+					until game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible == true or not Auto_Farm_Kaitun
 				end
 			end
 		elseif game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible == true then
